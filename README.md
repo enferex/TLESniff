@@ -18,6 +18,7 @@ for updated ASCII data sources.
 #### Resources
 * https://www.celestrak.com/NORAD/elements/
 * https://www.space-track.org/documentation#/tle
+* Lots of googling and Haskell docs.
 
 #### Contact
 mattdavis9@gmail.com (enferex)
