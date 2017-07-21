@@ -1,7 +1,7 @@
 ### TLESniff: A Two Line Element Parser
 
 #### What
-Two Line Elements are published ASCII satellite position information.
+Two Line Elements are ASCII data representing satellite position information.
 TLESniff can be used to read the raw (ASCII) text files that represent TLE data.
 TLESniff will then publish that data into a local sqlite database.
 
