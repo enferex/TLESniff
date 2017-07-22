@@ -1,5 +1,5 @@
 module TLE.Database where
-import TLE
+import TLE.Base
 import Database.SQLite
 
 databaseName = "test.sql"

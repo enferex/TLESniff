@@ -1,11 +1,9 @@
-SRCS = Main.hs TLE.hs Net.hs Database.hs
-HCC  = ghc
-APP  = tlesniff
+APP = tlesniff
 
 all: $(APP)
 
 $(APP): $(SRCS)
-	$(HCC) $^ -o $@
+	ghc --make Main.hs -o $@
 
 clean:
-	$(RM) *.hi *.o $(APP)
+	$(RM) *.{hi,.o} $(APP) TLE/*.{hi,.o}

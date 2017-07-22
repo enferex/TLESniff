@@ -1,5 +1,5 @@
 module Main where
-import TLE
+import TLE.Base
 import TLE.Net
 import TLE.Database
 
