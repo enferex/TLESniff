@@ -6,3 +6,6 @@ all: $(APP)
 
 $(APP): $(SRCS)
 	$(HCC) $^ -o $@
+
+clean:
+	$(RM) *.hi *.o $(APP)
