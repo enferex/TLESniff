@@ -46,11 +46,21 @@ buildTLE name l1 l2 = [ -- TLE Line 0
                       , TLEField "epochYear"      $ I (intFrom 18 19 l1)
                       , TLEField "epochDay"       $ D (fltFrom 20 31 l1)
                       , TLEField "fstMeanMotion"  $ D (fltFrom 33 42 l1)
-                      , TLEField "sndMeanMotion"  $ D (fltAss 44 51 l1)
-                      , TLEField "bstarDrag"      $ D (fltAss 53 60 l1)
+                      , TLEField "sndMeanMotion"  $ D (fltAss 44 51  l1)
+                      , TLEField "bstarDrag"      $ D (fltAss 53 60  l1)
                       , TLEField "ephermisType"   $ I (intFrom 62 62 l1)
                       , TLEField "elementNo"      $ I (intFrom 64 67 l1)
-                      , TLEField "checksum"       $ I (intFrom 68 68 l1) ]
+                      , TLEField "checksumLine1"  $ I (intFrom 68 68 l1)
+                      -- TLE Line 2
+                      , TLEField "catNumber"      $ I (intFrom 2 6   l2)
+                      , TLEField "orbInclination" $ D (fltFrom 8 15  l2)
+                      , TLEField "rightAscension" $ D (fltFrom 17 24 l2)
+                      , TLEField "eccentricity"   $ D (fltFrom 26 32 l2)
+                      , TLEField "argPerigee"     $ D (fltFrom 34 41 l2)
+                      , TLEField "meanAnomaly"    $ D (fltFrom 43 50 l2)
+                      , TLEField "meanMotion"     $ D (fltFrom 52 62 l2)
+                      , TLEField "revNumEpoch"    $ I (intFrom 63 67 l2)
+                      , TLEField "checksumLine2"  $ I (intFrom 668 68 l2) ]
 
 buildTLEs' :: [String] -> [TLE] -> [TLE]
 buildTLEs' (n:l1:l2:xs) ts = buildTLEs' xs ((buildTLE n l1 l2) : ts)
