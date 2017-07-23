@@ -21,18 +21,17 @@ initDB :: TLE -> IO SQLiteHandle
 initDB tle = do
     putStrLn $ "[+] Initializing database " ++ databaseName
     db <- openConnection databaseName
-    execStatement_ db q
-    return db
+    execStatement_ db q >> return db
     where
-        q = " CREATE TABLE IF NOT EXISTS tles (\
-            \ timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\
-            \" ++ t ++ ")"
+        q = " CREATE TABLE IF NOT EXISTS tles (" ++ t ++");\
+            \ CREATE UNIQUE INDEX id ON tles \
+            \ (satNo, elementNo, checksumLine1, checksumLine2);"
         t = join $ zip (fields tle) (types tle)
 
 updateEntry :: SQLiteHandle -> TLE -> IO SQLiteHandle
 updateEntry db tle = execStatement_ db q >> return db
     where
-        q = "INSERT INTO tles ( " ++ f ++ ") VALUES (" ++ v ++ ")"
+        q = "INSERT OR IGNORE INTO tles ( " ++ f ++ ") VALUES (" ++ v ++ ");"
         f = join' $ fields tle
         v = join' $ map (show) (values tle)
 
