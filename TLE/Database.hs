@@ -2,7 +2,7 @@ module TLE.Database where
 import TLE.Base
 import Database.SQLite
 
-databaseName = "test.sql"
+databaseName = "TLEs.sql"
 
 chop    xs = take ((length xs)-1) xs
 join    xs = (chop . concat) $ [x ++ " " ++ y ++ "," | (x,y) <- xs]
