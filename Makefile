@@ -6,4 +6,4 @@ $(APP): $(SRCS)
 	ghc --make Main.hs -o $@
 
 clean:
-	$(RM) *.{hi,.o} $(APP) TLE/*.{hi,.o}
+	$(RM) *.{hi,o} $(APP) TLE/*.{hi,o}
