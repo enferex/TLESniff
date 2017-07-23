@@ -23,7 +23,9 @@ initDB tle = do
     db <- openConnection databaseName
     execStatement_ db q >> return db
     where
-        q = " CREATE TABLE IF NOT EXISTS tles (" ++ t ++");\
+        q = " CREATE TABLE IF NOT EXISTS tles \
+            \(timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\
+            \" ++ t ++");\
             \ CREATE UNIQUE INDEX id ON tles \
             \ (satNo, elementNo, checksumLine1, checksumLine2);"
         t = join $ zip (fields tle) (types tle)
