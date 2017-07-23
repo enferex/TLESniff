@@ -60,7 +60,7 @@ buildTLE name l1 l2 = [ -- TLE Line 0
                       , TLEField "meanAnomaly"    $ D (fltFrom 43 50 l2)
                       , TLEField "meanMotion"     $ D (fltFrom 52 62 l2)
                       , TLEField "revNumEpoch"    $ I (intFrom 63 67 l2)
-                      , TLEField "checksumLine2"  $ I (intFrom 668 68 l2) ]
+                      , TLEField "checksumLine2"  $ I (intFrom 68 68 l2) ]
 
 buildTLEs' :: [String] -> [TLE] -> [TLE]
 buildTLEs' (n:l1:l2:xs) ts = buildTLEs' xs ((buildTLE n l1 l2) : ts)
