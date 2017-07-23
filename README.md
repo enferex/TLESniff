@@ -27,4 +27,4 @@ Simply run `make` to build.
 
 
 #### Contact
-mattdavis9@gmail.com (enferex)
+Matt Davis (https://github.com/enferex)
