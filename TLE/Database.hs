@@ -24,13 +24,13 @@ initDB tle = do
     execStatement_ db q
     return db
     where
-        q = " CREATE TABLE IF NOT EXISTS tbl (" ++ t ++ ")"
+        q = " CREATE TABLE IF NOT EXISTS tles (" ++ t ++ ")"
         t = join $ zip (fields tle) (types tle)
 
 updateEntry :: SQLiteHandle -> TLE -> IO SQLiteHandle
 updateEntry db tle = execStatement_ db q >> return db
     where
-        q = "INSERT INTO tbl ( " ++ f ++ ") VALUES (" ++ v ++ ")"
+        q = "INSERT INTO tles ( " ++ f ++ ") VALUES (" ++ v ++ ")"
         f = join' $ fields tle
         v = join' $ map (show) (values tle)
 
