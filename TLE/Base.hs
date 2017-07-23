@@ -28,11 +28,14 @@ fltFrom a b c
     | (c !! a) == '.' = fltFrom 0 (b-a+2) $ ('0' : (subStr a b c))
     | otherwise = valFind a b c :: Double
 
-fltAss a b c 
+-- These are termed "Decimal assumed"
+fltAss a b c
     | (c !! a) == '-' =
-        read $ "-0." ++ (subStr (a+1) (b-2) c) ++ ['e'] ++ [(c !! b)] :: Double
+        read $ "-0." ++ (subStr (a+1) (b-2) c) ++ "e-" ++ [(c !! b)] :: Double
     | otherwise =
-        read $ "0." ++ (subStr (a+1) (b-2) c) ++ ['e'] ++ [(c !! b)] :: Double
+        read $ "0." ++ (subStr (a+1) (b-2) c) ++ "e-" ++ [(c !! b)] :: Double
+
+fltAss' a b c = read $ "0." ++ subStr a b c :: Double
 
 buildTLE :: String -> String -> String -> TLE
 buildTLE name l1 l2 = [ -- TLE Line 0
@@ -55,7 +58,7 @@ buildTLE name l1 l2 = [ -- TLE Line 0
                       , TLEField "catNumber"      $ I (intFrom 2 6   l2)
                       , TLEField "orbInclination" $ D (fltFrom 8 15  l2)
                       , TLEField "rightAscension" $ D (fltFrom 17 24 l2)
-                      , TLEField "eccentricity"   $ D (fltFrom 26 32 l2)
+                      , TLEField "eccentricity"   $ D (fltAss' 26 32 l2)
                       , TLEField "argPerigee"     $ D (fltFrom 34 41 l2)
                       , TLEField "meanAnomaly"    $ D (fltFrom 43 50 l2)
                       , TLEField "meanMotion"     $ D (fltFrom 52 62 l2)
