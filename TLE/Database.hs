@@ -24,7 +24,9 @@ initDB tle = do
     execStatement_ db q
     return db
     where
-        q = " CREATE TABLE IF NOT EXISTS tles (" ++ t ++ ")"
+        q = " CREATE TABLE IF NOT EXISTS tles (\
+            \ timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\
+            \" ++ t ++ ")"
         t = join $ zip (fields tle) (types tle)
 
 updateEntry :: SQLiteHandle -> TLE -> IO SQLiteHandle
