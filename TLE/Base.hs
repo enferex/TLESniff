@@ -19,6 +19,7 @@ subStr :: Int -> Int -> String -> String
 subStr lo hi xs = take (1 + hi - lo) $ drop lo xs
 
 valFind a b c = read $ subStr a b c
+
 intFrom a b c = valFind a b c :: Int
 fltFrom a b c
     | (c !! a) == ' ' = fltFrom (a+1) b c
