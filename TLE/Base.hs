@@ -39,7 +39,7 @@ fltAss' a b c = read $ "0." ++ subStr a b c :: Double
 buildTLE :: String -> String -> String -> TLE
 buildTLE name l1 l2 = [
     -- TLE Line 0
-    TLEField "name"           $ S (trim name)
+      TLEField "name"           $ S (trim name)
     -- TLE Line 1
     , TLEField "satNo"          $ I (intFrom 2 6 l1)
     , TLEField "classification" $ C (l1 !! 7)
