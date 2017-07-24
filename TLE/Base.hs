@@ -2,8 +2,6 @@ module TLE.Base where
 
 import Data.Char
 
-testData = "GPS BIIR-07             \n1 26690U 01004A   17184.29217997  .00000043  00000-0  00000-0 0  9992\n2 26690  53.0436 157.1577 0183729 257.2811 269.4047  2.00569882120347\nGPS BIIR-07             \n1 26690U 01004A   17184.29217997  .00000043  00000-0  00000-0 0  9992\n2 26690  53.0436 157.1577 0183729 257.2811 269.4047  2.00569882120347\n"
-
 data TLEValue = I Int | S String | D Double | C Char
 data TLEField = TLEField {name::String, value::TLEValue}
 type TLE = [TLEField]
