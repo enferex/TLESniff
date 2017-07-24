@@ -19,7 +19,14 @@ run n sites = do
     putStrLn $ "[+] Constructed " ++ (show . length) tles ++ " TLE entries."
     putStrLn $ "[+] From " ++ show ((length tles) * 3) ++ " source lines."
     saveToDB tles
-    putStrLn ""
+
+delay :: IO ()
+delay = do
+    putStrLn $ "[+] Delaying for " ++ show min ++ " minute(s)."
+    threadDelay ms >> putStrLn ""
+    where
+        min = 1
+        ms  = (1000000 * 60 * min) -- Microseconds to minutes
 
 main = do
     --sites <- downloadData
@@ -27,4 +34,4 @@ main = do
     if (length sites) == 0
     then putStrLn "[-] No sites specified in Net.hs... add some!" >> exitFailure
     else return ()
-    mapM_ (\x ->  run x sites >> (threadDelay . delaySec) 10 >> return ()) [1..]
+    mapM_ (\x ->  run x sites >> delay >> return ()) [1..]
