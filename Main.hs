@@ -6,7 +6,7 @@ import TLE.Database
 
 test :: IO [Site]
 test = do
-    content <- readFile "testdata.sat"
+    content <- readFile "testdata.tle"
     return $ [ Site (Src "" "") (lines content) ]
 
 main = do
