@@ -1,6 +1,8 @@
 module TLE.Base where
 
+import Control.Exception
 import Data.Char
+import Text.Read
 
 data TLEValue = I Int | S String | D Double | C Char
 data TLEField = TLEField {name::String, value::TLEValue}
@@ -18,21 +20,27 @@ trim xs = filter (\x -> not $ isSpace x) xs
 subStr :: Int -> Int -> String -> String
 subStr lo hi xs = take (1 + hi - lo) $ drop lo xs
 
-valFind a b c = read $ subStr a b c
+valFind a b c = read' $ subStr a b c
+
+read' x =
+    case (readMaybe x) of
+        Just v  -> v
+        Nothing -> throw $ TypeError $ "Error reading: " ++ x
 
 intFrom a b c = valFind a b c :: Int
 fltFrom a b c
     | (c !! a) == ' ' = fltFrom (a+1) b c
     | (c !! a) == '-' = -1.0 * fltFrom (a+1) b c
+    | (c !! a) == '+' = 1.0 * fltFrom (a+1) b c
     | (c !! a) == '.' = fltFrom 0 (b-a+2) $ ('0' : (subStr a b c))
     | otherwise = valFind a b c :: Double
 
 -- These are termed "Decimal assumed"
 fltAss a b c
     | (c !! a) == '-' =
-        read $ "-0." ++ (subStr (a+1) (b-2) c) ++ "e-" ++ [(c !! b)] :: Double
+        read' $ "-0." ++ (subStr (a+1) (b-2) c) ++ "e-" ++ [(c !! b)] :: Double
     | otherwise =
-        read $ "0." ++ (subStr (a+1) (b-2) c) ++ "e-" ++ [(c !! b)] :: Double
+        read' $ "0." ++ (subStr (a+1) (b-2) c) ++ "e-" ++ [(c !! b)] :: Double
 
 fltAss' a b c = read $ "0." ++ subStr a b c :: Double
 
