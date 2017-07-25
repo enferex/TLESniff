@@ -12,8 +12,12 @@ test = do
     content <- readFile "testdata.tle"
     return $ [ Site (Src "" "") (lines content) ]
 
-run :: Int -> [Site] -> IO ()
-run n sites = do
+run :: Int -> IO ()
+run n = do
+    sites <- downloadData
+    if (length sites) == 0
+    then putStrLn "[-] No sites specified in Net.hs... add some!" >> exitFailure
+    else return ()
     let tles = concat $ map (buildTLEs . content) sites
     putStrLn $ "[+] --[ Sample Session " ++ show n ++ " ]--"
     putStrLn $ "[+] Constructed " ++ (show . length) tles ++ " TLE entries."
@@ -25,13 +29,8 @@ delay = do
     putStrLn $ "[+] Delaying for " ++ show min ++ " minute(s)."
     threadDelay ms >> putStrLn ""
     where
-        min = 1
+        min = 8 * 60
         ms  = (1000000 * 60 * min) -- Microseconds to minutes
 
 main = do
-    --sites <- downloadData
-    sites <- test
-    if (length sites) == 0
-    then putStrLn "[-] No sites specified in Net.hs... add some!" >> exitFailure
-    else return ()
-    mapM_ (\x ->  run x sites >> delay >> return ()) [1..]
+    mapM_ (\x -> run x >> delay >> return ()) [1..]
