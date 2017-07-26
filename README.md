@@ -11,7 +11,6 @@ TLESniff will then publish that data into a local sqlite database.
 * Network.Curl package for Haskell (for reading remotely published TLE data)
 
 #### Notes
-* This only parses the first line.  I still need to add the second line data.
 * The data sources in `Net.hs` have been removed.  Data sources should point
 diretly to ASCII TLE data, see celestrak.com for updated ASCII data sources.
 
