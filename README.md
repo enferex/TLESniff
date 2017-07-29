@@ -9,6 +9,7 @@ TLESniff will then publish that data into a local sqlite database.
 * Haskell runtime
 * Database.SQLite package for Haskell
 * Network.Curl package for Haskell (for reading remotely published TLE data)
+* Argparser for simplifying CLI input
 
 #### Notes
 * The data sources in `Net.hs` have been removed.  Data sources should point
