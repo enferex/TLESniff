@@ -17,12 +17,12 @@ argParser = Opt `parsedBy` optFlag "" "url file" `andBy` optFlag 0 "delay minute
 test :: IO [Site]
 test = do
     content <- readFile "testdata.tle"
-    return $ [ Site (Src "" "") (lines content) ]
+    return $ [ Site (Src "foobarbazqux" "") (lines content) ]
 
 run :: [Source] -> Int -> IO ()
 run sources n = do
     sites <- downloadData sources
-    let tles = concat $ map (buildTLEs . content) sites
+    let tles = concat $ map (\x -> buildTLEs (src x) (content x)) sites
     putStrLn $ "[+] --[ Sample Session " ++ show n ++ " ]--"
     putStrLn $ "[+] Constructed " ++ (show . length) tles ++ " TLE entries."
     putStrLn $ "[+] From " ++ show ((length tles) * 3) ++ " source lines."

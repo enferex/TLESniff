@@ -3,10 +3,11 @@ module TLE.Base where
 import Control.Exception
 import Data.Char
 import Text.Read
+import TLE.Net
 
 data TLEValue = I Int | S String | D Double | C Char
 data TLEField = TLEField {name::String, value::TLEValue}
-type TLE = [TLEField]
+data TLE = TLE {source::Source, fields::[TLEField]}
 
 instance Show TLEValue where
     show (I x) = show x
@@ -44,8 +45,8 @@ fltAss a b c
 
 fltAss' a b c = read $ "0." ++ subStr a b c :: Double
 
-buildTLE :: String -> String -> String -> TLE
-buildTLE name l1 l2 = [
+buildTLE :: Source -> String -> String -> String -> TLE
+buildTLE src name l1 l2 = TLE src [
     -- TLE Line 0
       TLEField "name"           $ S (trim name)
     -- TLE Line 1
@@ -73,10 +74,10 @@ buildTLE name l1 l2 = [
     , TLEField "revNumEpoch"    $ I (intFrom 63 67 l2)
     , TLEField "checksumLine2"  $ I (intFrom 68 68 l2) ]
 
-buildTLEs' :: [String] -> [TLE] -> [TLE]
-buildTLEs' (n:l1:l2:xs) ts = buildTLEs' xs ((buildTLE n l1 l2) : ts)
-buildTLEs' [] ts = ts
-buildTLEs' (n:line) ts = ts
+buildTLEs' :: Source -> [String] -> [TLE] -> [TLE]
+buildTLEs' src (n:l1:l2:xs) ts = buildTLEs' src xs ((buildTLE src n l1 l2) : ts)
+buildTLEs' src [] ts = ts
+buildTLEs' src (n:line) ts = ts
 
-buildTLEs :: [String] -> [TLE]
-buildTLEs xs = buildTLEs' xs []
+buildTLEs :: Source -> [String] -> [TLE]
+buildTLEs src xs = buildTLEs' src xs []
