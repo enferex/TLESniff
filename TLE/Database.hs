@@ -32,7 +32,7 @@ initDB tle = do
         t = join $ zip (fields' tle) (types tle)
 
 updateEntry :: SQLiteHandle -> TLE -> IO SQLiteHandle
-updateEntry db tle = execStatement_ db q >> putStrLn q >> return db
+updateEntry db tle = execStatement_ db q >> return db
     where
         q = "INSERT OR IGNORE INTO tles ( source, " ++ f ++ ")\
             \VALUES (" ++ s ++ ", " ++ v ++ ");"
