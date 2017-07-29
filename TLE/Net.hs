@@ -5,10 +5,6 @@ import Network.Curl
 data Source = Src  {url::URLString, desc::String} deriving(Show)
 data Site   = Site {src::Source, content::[String]} deriving(Show)
 
-dataSources = [ 
-    -- Src "http://data.source.website/tle_data.txt" "Description" 
-    ]
-
 getWebContent :: Source -> IO Site
 getWebContent src = do
     putStrLn $ "[+] Downloading content from: " ++ url src ++ " (" ++ desc src ++ ")"
@@ -20,4 +16,5 @@ getWebContent src = do
             return $ Site src xs
         _  -> return $ Site src []
 
-downloadData = mapM getWebContent dataSources
+downloadData :: [Source] -> IO [Site]
+downloadData sources = mapM getWebContent sources
