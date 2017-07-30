@@ -29,9 +29,9 @@ run sources n = do
 delay :: Int -> IO ()
 delay d = do
     putStrLn $ "[+] Delaying for " ++ show d ++ " minute(s)."
-    threadDelay ms >> putStrLn ""
+    threadDelay us >> putStrLn ""
     where
-        ms  = (1000000 * 60 * d) -- Microseconds to minutes
+        us  = (1000000 * 60 * d) -- Microseconds to minutes
 
 sourceFromCLI :: [String] -> [Source]
 sourceFromCLI args = map (\x -> Src x "CLI Supplied Data Source") args
