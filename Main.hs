@@ -7,8 +7,6 @@ import TLE.Base
 import TLE.Net
 import TLE.Database
 
-delaySec n = n * 1000000 -- Microseconds to seconds
-
 data Opt = Opt String Int deriving(Show)
 
 argParser :: ParserSpec Opt 
