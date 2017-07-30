@@ -1,5 +1,6 @@
 module Main where
 import Control.Concurrent
+import Data.Time.Clock
 import System.Console.ArgParser
 import System.Exit
 import System.Environment
@@ -17,18 +18,22 @@ test = do
     content <- readFile "testdata.tle"
     return $ [ Site (Src "foobarbazqux" "") (lines content) ]
 
+ok :: String -> IO ()
+ok s = putStrLn $ "[+] " ++ s
+
 run :: [Source] -> Int -> IO ()
 run sources n = do
     sites <- downloadData sources
     let tles = concat $ map (\x -> buildTLEs (src x) (content x)) sites
-    putStrLn $ "[+] --[ Sample Session " ++ show n ++ " ]--"
-    putStrLn $ "[+] Constructed " ++ (show . length) tles ++ " TLE entries."
-    putStrLn $ "[+] From " ++ show ((length tles) * 3) ++ " source lines."
+    ok $ "--[ Sample Session " ++ show n ++ " ]--"
+    ok $ "Constructed " ++ (show . length) tles ++ " TLE entries."
+    ok $ "From " ++ show ((length tles) * 3) ++ " source lines."
     saveToDB tles
 
 delay :: Int -> IO ()
 delay d = do
-    putStrLn $ "[+] Delaying for " ++ show d ++ " minute(s)."
+    getCurrentTime >>= ok . (\ x -> "Current Time: " ++ (show x))
+    ok $ "Delaying for " ++ show d ++ " minute(s)."
     threadDelay us >> putStrLn ""
     where
         us  = (1000000 * 60 * d) -- Microseconds to minutes
