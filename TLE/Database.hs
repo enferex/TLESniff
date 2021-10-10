@@ -1,7 +1,8 @@
 module TLE.Database where
 import TLE.Base
 import TLE.Net
-import Database.SQLite
+import Database.SQLite3
+import qualified Data.Text as Txt
 
 databaseName = "TLEs.sql"
 
@@ -18,11 +19,11 @@ typeOf TLEField {name=_, value=S{}} = "TEXT"
 typeOf TLEField {name=_, value=C{}} = "TEXT"
 typeOf TLEField {name=_, value=D{}} = "REAL"
 
-initDB :: TLE -> IO SQLiteHandle
+initDB :: TLE -> IO Database
 initDB tle = do
     putStrLn $ "[+] Initializing database " ++ databaseName
-    db <- openConnection databaseName
-    execStatement_ db q >> return db
+    db <- open $ Txt.pack databaseName
+    exec db (Txt.pack q) >> return db
     where
         q = " CREATE TABLE IF NOT EXISTS tles \
             \(timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\
@@ -31,8 +32,8 @@ initDB tle = do
             \ (satNo, elementNo, checksumLine1, checksumLine2);"
         t = join $ zip (fields' tle) (types tle)
 
-updateEntry :: SQLiteHandle -> TLE -> IO SQLiteHandle
-updateEntry db tle = execStatement_ db q >> return db
+updateEntry :: Database -> TLE -> IO Database
+updateEntry db tle = exec db (Txt.pack q) >> return db
     where
         q = "INSERT OR IGNORE INTO tles ( source, " ++ f ++ ")\
             \VALUES (" ++ s ++ ", " ++ v ++ ");"
@@ -40,8 +41,8 @@ updateEntry db tle = execStatement_ db q >> return db
         v = join' $ map (show) (values tle)
         s = (show . url . source) tle
 
-updateDB :: [TLE] -> SQLiteHandle -> IO SQLiteHandle
+updateDB :: [TLE] -> Database -> IO Database
 updateDB tles db = mapM (updateEntry db) tles >> return db
 
 saveToDB :: [TLE] -> IO ()
-saveToDB tles = initDB (head tles) >>= updateDB tles >>= closeConnection
+saveToDB tles = initDB (head tles) >>= updateDB tles >>= close

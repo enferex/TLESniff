@@ -1,9 +1,8 @@
-APP = tlesniff
+all: tlesniff
 
-all: $(APP)
-
-$(APP): Main.hs TLE/*.hs
-	ghc -static --make Main.hs -o $@ 
+tlesniff: Main.hs TLE/*.hs
+	stack install --silent
 
 clean:
-	$(RM) *.{hi,o} $(APP) TLE/*.{hi,o}
+	stack purge
+	$(RM) tlesniff
