@@ -18,7 +18,7 @@ should be a URL to TLE data; see the sites mentioned above.  Those sites provide
 numerous TLE sources to choose from.
 
 #### Build
-Simply run `make` to build (or ```stack install``)
+Simply run `make` to build.
 
 #### Resources
 * https://www.celestrak.com/NORAD/elements/
