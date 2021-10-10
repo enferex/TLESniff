@@ -25,10 +25,10 @@ initDB tle = do
     db <- open $ Txt.pack databaseName
     exec db (Txt.pack q) >> return db
     where
-        q = " CREATE TABLE IF NOT EXISTS tles \
+        q = "CREATE TABLE IF NOT EXISTS tles \
             \(timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\
             \ source TEXT," ++ t ++");\
-            \ CREATE UNIQUE INDEX id ON tles \
+            \ CREATE UNIQUE INDEX IF NOT EXISTS id ON tles \
             \ (satNo, elementNo, checksumLine1, checksumLine2);"
         t = join $ zip (fields' tle) (types tle)
 
